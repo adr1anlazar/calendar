@@ -1,0 +1,14 @@
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .current-date {
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .spacer {
+        flex: 1;
+    }
+}

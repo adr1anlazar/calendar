@@ -1,0 +1,15 @@
+<mat-toolbar color="primary" class="calendar-header">
+    <button mat-icon-button (click)="goToPreviousDay()">
+        <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <span class="current-date">{{ currentDate | date: 'fullDate' }}</span>
+
+    <button mat-icon-button (click)="goToNextDay()">
+        <mat-icon>chevron_right</mat-icon>
+    </button>
+
+    <span class="spacer"></span>
+
+    <button mat-raised-button color="accent" (click)="onCreateAppointment()">Create Appointment</button>
+</mat-toolbar>
