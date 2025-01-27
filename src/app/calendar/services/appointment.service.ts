@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
 
 export interface Appointment {
     title: string;
@@ -13,32 +12,47 @@ export interface Appointment {
     providedIn: 'root',
 })
 export class AppointmentService {
-    private appointments: Appointment[] = [];
+    private appointmentsByDate: { [key: string]: Appointment[] } = {};
 
     constructor() { }
 
-    getAppointments(): Observable<Appointment[]> {
-        return of(this.appointments).pipe(delay(500));
+    private formatDateKey(date: Date): string {
+        return date.toISOString().split('T')[0];
     }
 
-    createAppointment(appointment: Appointment): Observable<Appointment[]> {
-        this.appointments.push(appointment);
-        return of([...this.appointments]).pipe(delay(500));
+    getAppointments(date: Date): Observable<Appointment[]> {
+        const dateKey = this.formatDateKey(date);
+        return of(this.appointmentsByDate[dateKey] || []).pipe();
     }
 
-    updateAppointment(existingAppointment: Appointment, updatedData: Appointment): Observable<Appointment[]> {
-        const index = this.appointments.indexOf(existingAppointment);
-        if (index !== -1) {
-            this.appointments[index] = updatedData;
+    createAppointment(date: Date, appointment: Appointment): Observable<Appointment[]> {
+        const dateKey = this.formatDateKey(date);
+        if (!this.appointmentsByDate[dateKey]) {
+            this.appointmentsByDate[dateKey] = [];
         }
-        return of([...this.appointments]).pipe(delay(500));
+        this.appointmentsByDate[dateKey].push(appointment);
+        return of([...this.appointmentsByDate[dateKey]]).pipe();
     }
 
-    deleteAppointment(appointment: Appointment): Observable<Appointment[]> {
-        const index = this.appointments.indexOf(appointment);
+    updateAppointment(date: Date, existingAppointment: Appointment, updatedData: Appointment): Observable<Appointment[]> {
+        const dateKey = this.formatDateKey(date);
+        const appointments = this.appointmentsByDate[dateKey] || [];
+        const index = appointments.indexOf(existingAppointment);
         if (index !== -1) {
-            this.appointments.splice(index, 1);
+            appointments[index] = updatedData;
         }
-        return of([...this.appointments]).pipe(delay(500));
+        this.appointmentsByDate[dateKey] = appointments;
+        return of([...appointments]).pipe();
+    }
+
+    deleteAppointment(date: Date, appointment: Appointment): Observable<Appointment[]> {
+        const dateKey = this.formatDateKey(date);
+        const appointments = this.appointmentsByDate[dateKey] || [];
+        const index = appointments.indexOf(appointment);
+        if (index !== -1) {
+            appointments.splice(index, 1);
+        }
+        this.appointmentsByDate[dateKey] = appointments;
+        return of([...appointments]).pipe();
     }
 }
