@@ -1,3 +1,13 @@
-<calendar-header (navigateDate)="onDateChange($event)" (createAppointment)="onCreateAppointment()"></calendar-header>
+<calendar-header (navigateDate)="onDateChange($event)" (createAppointment)="openAppointmentModal()"></calendar-header>
 
-<p>Selected Date: {{ currentDate | date: 'fullDate' }}</p>
+<div class="calendar-grid">
+    <div class="hour-slot" *ngFor="let hour of hours" (click)="onGridClick(hour)">
+        <span class="hour-label">{{ hour | number: '2.0' }}:00</span>
+    </div>
+</div>
+
+<div *ngFor="let appointment of appointments">
+    <div class="appointment-card" [style.top.px]="calculateTop(appointment.time)">
+        {{ appointment.title }} - {{ appointment.time | date: 'shortTime' }}
+    </div>
+</div>

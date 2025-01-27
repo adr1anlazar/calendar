@@ -7,15 +7,36 @@ import { Component } from '@angular/core';
   standalone: false
 })
 export class CalendarComponent {
-  currentDate!: Date;
+  currentDate: Date = new Date();
+  selectedHour: number | null = null;
+  hours: number[] = Array.from({ length: 24 }, (_, i) => i);
+  appointments: { time: Date; title: string }[] = [];
 
   onDateChange(date: Date): void {
     this.currentDate = date;
-    console.log('Current date updated:', this.currentDate);
+    console.log('Date updated to:', this.currentDate);
   }
 
-  onCreateAppointment(): void {
-    console.log('Create Appointment clicked!');
-    // Open the appointment form dialog (we'll add this later)
+  onGridClick(hour: number): void {
+    this.selectedHour = hour;
+    this.openAppointmentModal();
+  }
+
+  calculateTop(time: Date): number {
+    const hour = time.getHours();
+    const minute = time.getMinutes();
+    const slotHeight = 60;
+    return hour * slotHeight + (minute / 60) * slotHeight;
+  }
+
+
+  openAppointmentModal(): void {
+    console.log('Opening appointment modal for hour:', this.selectedHour);
+    // TODO: Open the modal
+  }
+
+  saveAppointment(time: Date, title: string): void {
+    this.appointments.push({ time, title });
+    console.log('Saved appointment:', { time, title });
   }
 }
