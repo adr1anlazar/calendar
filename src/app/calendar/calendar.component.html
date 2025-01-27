@@ -4,10 +4,14 @@
     <div class="hour-slot" *ngFor="let hour of hours" (click)="onGridClick(hour)">
         <span class="hour-label">{{ hour | number: '2.0' }}:00</span>
     </div>
-</div>
 
-<div *ngFor="let appointment of appointments">
-    <div class="appointment-card" [style.top.px]="calculateTop(appointment.time)">
-        {{ appointment.title }} - {{ appointment.time | date: 'shortTime' }}
+    <div *ngFor="let appointment of appointments">
+        <div class="appointment-card" [style.top.px]="calculateTop(appointment.startTime)"
+            [style.height.px]="calculateHeight(appointment.startTime, appointment.endTime)"
+            (click)="openAppointmentModal(appointment)">
+            {{ appointment.title }}
+            <br />
+            {{ appointment.startTime | date: 'HH:mm' }} - {{ appointment.endTime | date: 'HH:mm' }}
+        </div>
     </div>
 </div>

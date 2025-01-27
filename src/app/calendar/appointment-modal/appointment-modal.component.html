@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Create Appointment</h2>
+
+<mat-dialog-content>
+    <mat-form-field class="full-width">
+        <mat-label>Title</mat-label>
+        <input matInput [(ngModel)]="title" required #titleField="ngModel" />
+        <mat-error *ngIf="titleField.invalid && titleField.touched">
+            Title is required.
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput [(ngModel)]="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="half-width">
+        <mat-label>Start Time</mat-label>
+        <input matInput placeholder="HH:mm" [(ngModel)]="startTime" pattern="^([01][0-9]|2[0-3]):([0-5][0-9])$" required
+            #startTimeField="ngModel" />
+        <mat-error *ngIf="startTimeField.invalid && startTimeField.touched">
+            Must be in HH:mm format.
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="half-width">
+        <mat-label>End Time</mat-label>
+        <input matInput placeholder="HH:mm" [(ngModel)]="endTime" pattern="^([01][0-9]|2[0-3]):([0-5][0-9])$" required
+            #endTimeField="ngModel" />
+        <mat-error *ngIf="(endTimeField.invalid && endTimeField.touched)">
+            Must be in HH:mm format.
+        </mat-error>
+    </mat-form-field>
+    <p *ngIf="endTimeError" class="error-message">
+        {{endTimeError}}
+    </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="!isValid()" (click)="save()">Save</button>
+</mat-dialog-actions>

@@ -1,0 +1,32 @@
+.full-width {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.half-width {
+    width: 48%;
+    margin-right: 2%;
+}
+
+h2[mat-dialog-title] {
+    margin-bottom: 20px;
+}
+
+mat-dialog-content {
+    height: 324px;
+}
+
+mat-dialog-actions {
+    margin-top: 16px;
+}
+
+mat-error {
+    color: red;
+    font-size: 12px;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 20px;
+}
