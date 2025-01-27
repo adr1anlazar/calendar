@@ -2,31 +2,27 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-appointment-modal',
+  selector: 'appointment-modal',
   templateUrl: './appointment-modal.component.html',
   styleUrl: './appointment-modal.component.scss',
   standalone: false
 })
+
 export class AppointmentModalComponent {
   title: string = '';
   description: string = '';
   startTime: string = '';
   endTime: string = '';
   endTimeError: string = '';
+  isEditMode: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<AppointmentModalComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: {
-      title?: string;
-      description?: string;
-      startTime?: string;
-      endTime?: string;
-      defaultTime: string;
-      selectedHour: number;
-    }
+    public data: { title?: string; description?: string; startTime?: string; endTime?: string; defaultTime: string; selectedHour: number; }
   ) {
     if (data.title) {
+      this.isEditMode = true;
       this.title = data.title || '';
       this.description = data.description || '';
       this.startTime = data.startTime || '';
