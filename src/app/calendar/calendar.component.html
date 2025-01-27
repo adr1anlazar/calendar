@@ -6,12 +6,18 @@
     </div>
 
     <div *ngFor="let appointment of appointments">
-        <div class="appointment-card" [style.top.px]="calculateTop(appointment.startTime)"
+        <div class="appointment-card"
+            [style.top.px]="calculateTop(appointment.startTime)"
             [style.height.px]="calculateHeight(appointment.startTime, appointment.endTime)"
             (click)="openAppointmentModal(appointment)">
-            {{ appointment.title }}
-            <br />
-            {{ appointment.startTime | date: 'HH:mm' }} - {{ appointment.endTime | date: 'HH:mm' }}
+            <div class="appointment-content">
+                <strong>{{ appointment.title }}</strong>
+                {{ appointment.startTime | date: 'HH:mm' }} - {{ appointment.endTime | date: 'HH:mm' }}
+            </div>
+            <button class="delete-button" (click)="deleteAppointment(appointment, $event)">
+                ✖
+            </button>
         </div>
+
     </div>
 </div>

@@ -21,7 +21,9 @@
 .appointment-card {
   position: absolute;
   left: 5%;
-  width: 90%;
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
   background-color: #4caf50;
   color: white;
   border-radius: 4px;
@@ -30,4 +32,23 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   cursor: pointer;
+  .appointment-content {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    padding: 0 6px;
+  }
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.delete-button:hover {
+  color: #ff3d3d;
 }
