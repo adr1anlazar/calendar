@@ -4,6 +4,7 @@ import { AppointmentModalComponent } from './appointment-modal/appointment-modal
 import { Appointment, AppointmentService } from './services/appointment.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Utils } from './utils';
 
 @Component({
   selector: 'calendar',
@@ -36,29 +37,19 @@ export class CalendarComponent implements OnInit {
   }
 
   calculateTop(time: Date): number {
-    const hour = time.getHours();
-    const minute = time.getMinutes();
-    const slotHeight = 60;
-    return hour * slotHeight + (minute / 60) * slotHeight;
+    return Utils.calculateTop(time);
   }
 
   calculateHeight(startTime: Date, endTime: Date): number {
-    const slotHeight = 60;
-    const durationInMinutes = (endTime.getTime() - startTime.getTime()) / (1000 * 60);
-    return ((durationInMinutes / 60) * slotHeight) - 8; // 8 from padding
+    return Utils.calculateHeight(startTime, endTime);
   }
-  
+
   createDateFromTime(time: string): Date {
-    const [hour, minute] = time.split(':').map(Number);
-    const date = new Date(this.currentDate);
-    date.setHours(hour, minute, 0, 0);
-    return date;
+    return Utils.createDateFromTime(time, this.currentDate);
   }
 
   formatTime(date: Date): string {
-    const hour = date.getHours().toString().padStart(2, '0');
-    const minute = date.getMinutes().toString().padStart(2, '0');
-    return `${hour}:${minute}`;
+    return Utils.formatTime(date);
   }
 
   openAppointmentModal(existingAppointment: Appointment | null = null): void {
